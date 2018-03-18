@@ -1,0 +1,11 @@
+/**
+ * Customizing JavaEE Application
+ */
+
+rootProject.name = 'po'
+
+includeFlat 'model', 'repository', 'web', 'client'
+
+rootProject.children.each {
+	it.buildFileName = it.name + '.gradle'
+}

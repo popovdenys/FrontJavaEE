@@ -1,0 +1,99 @@
+/**
+ * JavaEE Application : Web project
+ */
+
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+
+    ivy {
+        name 'jQuery'
+        url 'http://code.jquery.com'
+        layout 'pattern', {
+            artifact '[module]-[revision](.[classifier]).[ext]'
+        }
+    }
+}
+
+configurations {
+    jquery
+}
+
+dependencies {
+    compile project(':repository')
+
+    compile 'javax.servlet:jstl:1.2'
+
+    // Use servlet api
+    // compile 'javax:javaee-web-api:8.0'
+
+    jquery group: 'jquery', name: 'jquery', version: '3.3.1', classifier: '', ext: 'js'
+}
+
+
+/**
+ * Get external libs
+ */
+task getExternalJQuery(type: Copy) {
+    from configurations.jquery
+    into "$webAppDir/interface/js/libs"
+}
+
+// GROUP : deploy
+
+task getTomcatImage(type : Exec, group : webGroups.deploy, description : "Get tomcat image") {
+    commandLine 'docker', 'image', 'build', '-t', 'tomcat', "$masterPath/docker"
+
+    doFirst {
+        println "path to dockerfile is $masterPath/docker"
+    }
+}
+
+task checkTomcatImage(type : Exec, group : webGroups.deploy, description : "Does Tomcat image exist ?") {
+    commandLine 'docker', 'image', 'inspect', 'tomcat'
+    ignoreExitValue true
+    doLast {
+        (execResult.exitValue == 0) ?: getTomcatImage.execute()
+    }
+}
+
+task launchTomcatContainer(type : Exec, group : webGroups.deploy, description : 'launch Tomcat container') {
+
+    dependsOn checkTomcatImage
+
+    commandLine 'docker', 'container', 'run', '-d', '--rm', '-p', '80:8080', '--name', 'tomcat', 'tomcat'
+    ignoreExitValue true
+
+    doLast {
+        println "Start Tomcat container with code - $execResult.exitValue"
+    }
+}
+
+task deploy(type: Exec, group: webGroups.deploy, description: 'deploy to Docker container') {
+    dependsOn getExternalJQuery, launchTomcatContainer, war
+
+    commandLine 'docker', 'cp', war.outputs.files.asPath, 'tomcat:/usr/local/tomcat/webapps/ROOT.war'
+
+    finalizedBy 'refresh'
+
+    doLast {
+        println war.outputs.files.asPath
+        sleep 8000
+    }
+}
+
+task refresh(type : Exec, group : webGroups.deploy, description : 'refresh web page') {
+    commandLine 'xdotool', 'search', '--name', '^Less', 'windowactivate', '--sync', 'key', 'F5' // 'ctrl+r'
+    ignoreExitValue true
+    doLast {
+        (execResult.exitValue == 0) ?: launchPage.execute()
+    }
+
+}
+task launchPage(type : Exec, group : webGroups.deploy, description : 'launch web page') {
+    commandLine 'google-chrome', 'http://localhost'
+}
+
+//---------------------------------------------------------------------------------------------
+

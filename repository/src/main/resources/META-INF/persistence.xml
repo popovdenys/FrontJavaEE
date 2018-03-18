@@ -1,0 +1,25 @@
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+    <!--*******************MYSQL*******************-->
+    <persistence-unit name="chuldb-mysql" transaction-type="JTA">
+
+        <jta-data-source>java:/chul</jta-data-source>
+        <class>po.po.domain.Record</class>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+        </properties>
+    </persistence-unit>
+
+    <!--*******************DERBY*******************
+    <persistence-unit name="chuldb-derby" transaction-type="JTA">
+
+        <jta-data-source>java:/Chul</jta-data-source>
+        <class>po.po.domain.Record</class>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+        </properties>
+    </persistence-unit>
+-->
+</persistence>

@@ -1,0 +1,65 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+group 'po.client'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    groups = [
+            run : 'customrun'
+    ]
+    clientMainClassTemplate = 'po.app.Client'
+    clientMaskName = 'runClient'
+}
+
+dependencies {
+
+    // INSIDE INTERACTIONS
+    compile project(':repository')
+    //------------------------------------------------------------------------------------------//
+
+    // APPLICATION
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    //------------------------------------------------------------------------------------------//
+
+    // APPLICATION SERVER
+    compile fileTree(dir:'/opt/servers/wildfly/v11.0.0/bin/client', include: 'jboss-client.jar')
+    //------------------------------------------------------------------------------------------//
+
+    // TEST
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    //------------------------------------------------------------------------------------------//
+
+    // LOG
+    compile 'log4j:log4j:1.2.17'
+    //------------------------------------------------------------------------------------------//
+}
+
+// DEPLOY -> JBoss WildFly
+task checkdeploy (group : groups.run, dependsOn : ':web:deploy') { }
+
+/**
+ * RUN CLIENT
+ */
+/**
+ * tasks :  runClient...
+ *
+ */
+tasks.addRule("Pattern : runClient<Type> - Run specific client") { String taskName ->
+    if (taskName.startsWith( clientMaskName )) {
+        task(taskName) {
+            doFirst {
+                checkdeploy.execute()
+                mainClassName = clientMainClassTemplate + taskName - clientMaskName
+            }
+            finalizedBy run
+        }
+    }
+}

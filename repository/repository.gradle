@@ -1,0 +1,11 @@
+/**
+ * JavaEE Application : Repository
+ */
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':model')
+}

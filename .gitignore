@@ -1,0 +1,35 @@
+# temp files
+*~
+
+# Submodules' build
+**/build/
+**/out/
+
+# Gradle's plugins
+master/buildSrc/build/
+master/buildSrc/.gradle/
+master/.gradle/
+.gradle/
+
+# Maven (ToDo : split up between projects )
+target/
+
+# Eclipse (ToDo : split up between projects )
+bin/
+.settings/
+.project
+.classpath
+
+# Idea
+.idea/
+**/*.iml
+*.ipr
+*.iws
+
+# reserve (ToDo : split up between projects )
+out/
+
+# test
+/test/**
+**/*.log
+**/*.war

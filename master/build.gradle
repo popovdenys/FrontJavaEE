@@ -1,0 +1,49 @@
+/**
+ * JavaEE Application multiproject builds
+ */
+
+ext.projectIds = [
+		group : 'po.server'
+		, version : '0.1-SNAPSHOT'
+	]
+
+allprojects {
+	group = projectIds.group
+	version =projectIds.version
+}
+
+subprojects {
+	apply plugin: 'java'
+//	apply plugin: 'eclipse'
+	apply plugin: 'idea'
+
+	sourceCompatibility = 1.8
+
+	repositories {
+		mavenCentral()
+	}
+
+	ext {
+
+		masterPath = rootProject.projectDir.path
+
+		// DOCKER
+		containerIsAlreadyRunningErrorCode = 125
+
+		// TEST
+		JUNIT_VERSION = '4.12'
+
+		webGroups = [
+		        deploy : 'deploy'
+		]
+	}
+
+	dependencies {
+		testCompile 'org.slf4j:slf4j-log4j12:1.8.0-beta1'
+
+		// Use JUnit test framework
+		testCompile "junit:junit:$JUNIT_VERSION"
+
+		compile ("org.jboss.spec:jboss-javaee-all-7.0:1.1.1.Final")
+	}
+}

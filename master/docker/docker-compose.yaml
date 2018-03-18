@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  galaxy:
+   image: popovdenys/galaxy
+   networks:
+     - galaxy-route
+   ports:
+     - 80:8080
+     - 9990:9990
+   container_name: galaxy
+   deploy:
+     replicas: 3
+     update_config:
+       parallelism: 1
+       delay: 120s
+   depends_on:
+     - chuldb-mysql
+
+  chuldb-mysql:
+   image: popovdenys/mysql
+   networks:
+     - galaxy-route
+   environment:
+     - MYSQL_ROOT_PASSWORD=popovdenys
+     - MYSQL_USER=popov
+     - MYSQL_PASSWORD=popovdenys
+     - MYSQL_DATABASE=chul
+   volumes:
+     - mydata:/var/lib/mysql
+   container_name: chuldb-mysql
+
+
+networks:
+  galaxy-route:
+
+volumes:
+  mydata:

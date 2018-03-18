@@ -1,0 +1,11 @@
+/**
+ * Model of JavaEE Application
+ */
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.kafka:kafka_2.12:1.0.1'
+}
