@@ -4,7 +4,7 @@
 
 rootProject.name = 'po'
 
-includeFlat 'model', 'repository', 'web', 'client'
+includeFlat 'model', 'repository', 'web-server', 'web-client', 'app-client'
 
 rootProject.children.each {
 	it.buildFileName = it.name + '.gradle'

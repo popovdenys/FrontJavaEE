@@ -4,6 +4,9 @@
 # Submodules' build
 **/build/
 **/out/
+**/dist
+**/node_modules
+
 
 # Gradle's plugins
 master/buildSrc/build/
@@ -26,10 +29,6 @@ bin/
 *.ipr
 *.iws
 
-# reserve (ToDo : split up between projects )
-out/
-
 # test
 /test/**
 **/*.log
-**/*.war
