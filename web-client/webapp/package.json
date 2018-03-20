@@ -4,8 +4,9 @@
   "description": "deploy javaee front end with webpack & vue.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "./node_modules/.bin/webpack",
+    "test-production": "NODE_ENV=production ./node_modules/.bin/webpack",
+    "production": "npm run test-production -- -p",
     "watch": "npm run build -- -w"
   },
   "keywords": [
@@ -16,17 +17,27 @@
   ],
   "author": "Popov Denys",
   "license": "MIT",
+  "devDependenciesComments": "style-loader => css injection",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "fs": "0.0.1-security",
+    "html-webpack-plugin": "^3.0.7",
+    "img-loader": "^2.0.1",
+    "node-sass": "^4.7.2",
+    "purify-css": "^1.2.5",
+    "purifycss-webpack": "^0.7.0",
+    "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12"
+    "webpack": "^3.1.0"
   },
   "dependencies": {
-    "babel-cli": "^6.26.0",
     "jquery": "^3.3.1"
   }
 }

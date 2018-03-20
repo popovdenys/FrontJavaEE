@@ -13,6 +13,19 @@ const $ = require('jquery');
 //$('#target').html( display );
 $('#target').html( display.log() );
 */
-class DenysPopov {
 
+//require('./styles/scss/main1.scss');
+
+/*
+class Form {
+    constructor() {
+        let nums = [1, 2, 3].map(n => n*2);
+
+        console.log(nums);
+    }
 }
+
+new Form();
+*/
+
+console.log();
