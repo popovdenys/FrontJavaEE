@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Less</title>
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.chunks.app.css %>">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
 <p id="target">Go!</p>
@@ -12,6 +12,8 @@
 <div id="image-third"></div>
 <div><p>Text</p></div>
 
-<script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.app.entry %>"></script>
+<div id="app">{{hello}}</div>
+
+<script type="text/javascript" src="/assets/js/app.js"></script>
 </body>
 </html>

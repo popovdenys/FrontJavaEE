@@ -4,6 +4,7 @@
   "description": "deploy javaee front end with webpack & vue.js",
   "main": "index.js",
   "scripts": {
+    "server": "node server",
     "build": "./node_modules/.bin/webpack",
     "test-production": "NODE_ENV=production ./node_modules/.bin/webpack",
     "production": "npm run test-production -- -p",
@@ -35,9 +36,12 @@
     "purifycss-webpack": "^0.7.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
-    "webpack": "^3.1.0"
+    "vue": "^2.5.16",
+    "webpack": "^3.5.5",
+    "webpack-dev-middleware": "^3.0.1"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "jquery": "^3.3.1"
   }
 }
