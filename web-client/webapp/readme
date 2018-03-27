@@ -14,4 +14,4 @@ apply :
     :web/src/main/webapp$ npm install jquery --save
 
   :web/src/main/webapp$ npm install
-  :web/src/main/webapp$ vi webpack.config.js => :web/src/main/webapp$ ./node_modules/.bin/webpack -w (watch & rebuild)
+  :web/src/main/webapp$ vi __webpack.config.js => :web/src/main/webapp$ ./node_modules/.bin/webpack -w (watch & rebuild)

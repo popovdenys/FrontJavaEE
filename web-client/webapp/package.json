@@ -1,47 +1,43 @@
 {
-  "name": "javaee-front",
+  "name": "javaee-client",
   "version": "0.0.1",
-  "description": "deploy javaee front end with webpack & vue.js",
-  "main": "index.js",
+  "description": "JavaEE project's Front-End",
+  "private": true,
   "scripts": {
-    "server": "node server",
-    "build": "./node_modules/.bin/webpack",
-    "test-production": "NODE_ENV=production ./node_modules/.bin/webpack",
-    "production": "npm run test-production -- -p",
-    "watch": "npm run build -- -w"
+    "build": "./node_modules/.bin/webpack --mode=development",
+    "simple-build": "./node_modules/.bin/webpack",
+    "dev": "./node_modules/.bin/webpack-dev-server --mode=development",
+    "prod": "npm run simple-build -- --mode=production",
+    "server": "node server"
   },
   "keywords": [
     "webpack",
-    "less",
-    "vue.js",
-    "es7"
+    "es6",
+    "sass",
+    "vue.js"
   ],
-  "author": "Popov Denys",
+  "author": {
+    "name": "Popov Denys",
+    "email": "popovdenys@gmail.com"
+  },
+  "licenseComments": "EUPL-1.2",
   "license": "MIT",
   "devDependenciesComments": "style-loader => css injection",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
-    "clean-webpack-plugin": "^0.1.19",
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "babel-loader": "^8.0.0-beta.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "file-loader": "^1.1.11",
-    "fs": "0.0.1-security",
-    "html-webpack-plugin": "^3.0.7",
-    "img-loader": "^2.0.1",
-    "node-sass": "^4.7.2",
-    "purify-css": "^1.2.5",
-    "purifycss-webpack": "^0.7.0",
-    "sass-loader": "^6.0.7",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^3.1.0",
     "style-loader": "^0.20.3",
-    "vue": "^2.5.16",
-    "webpack": "^3.5.5",
-    "webpack-dev-middleware": "^3.0.1"
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "express": "^4.16.3",
     "jquery": "^3.3.1"
   }
 }

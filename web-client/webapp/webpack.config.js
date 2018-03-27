@@ -1,14 +1,44 @@
-console.log('merde')
-
-const webpack = require('webpack');
+const HTMLPlugin = require( 'html-webpack-plugin' )
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const path = require( 'path' )
-const middleware = require('webpack-dev-middleware');
-//const compiler = webpack({ .. webpack options .. });
-const express = require('express');
-const app = express();
+const UglifyJS = require( 'uglifyjs-webpack-plugin' )
+const production = process.env.NODE_ENV === "production"
 
-app.use(middleware({}, {
-    index : path.resolve( __dirname, './index.html' )
-}));
+let config = {
+    /*watch : !production,*/
+    entry : './src/js/index.js'
+    , devtool: production ? "source-map" : "cheap-module-eval-source-map"
+, output : {
+        filename : 'app.js'
+        , path : path.resolve( __dirname, 'build/assets' )
+        /*, publicPath: 'build/assets/'*/
+    }
+    , module: {
+        rules: [ {
+            // BABEL LOADER
+            test : /\.js$/
+            , exclude: /(node_modules|bower_components)/
+            , use : [ 'babel-loader?cacheDirectory=false' ]
+        }
+        , {
+            // CSS LOADER
+            test : /\.css$/
+            , use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
+            }]
+    }
+    , plugins: [
+        new HTMLPlugin( )
+        , new ExtractTextPlugin( "app.css" )
+    ]
+}
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+if ( production ) {
+    config.plugins.push( new UglifyJS( {
+        sourceMap : true
+    } ) )
+}
+
+module.exports = config
