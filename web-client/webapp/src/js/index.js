@@ -1,11 +1,13 @@
 /*var log = require('./logs.js')*/
 //import log from './logs'
-//import * as log from './logs'
+import * as log from './logs'
 //import config from './config'
 
-// import css from './app.css'
-// import './app.css'
+import css from './app.scss'
+// import './app.scss'
 
+
+//console.log(css)
 
 let [b,,c,d] = [5,6,7,8]
 
@@ -18,7 +20,7 @@ document.getElementById( 'btn-login' ).addEventListener( 'click', function ( ) {
     } )
 } )
 
-//log.log('Salut : ' + d);
+log.log('Salut : ' + d);
 
 //console.log( config )
 
