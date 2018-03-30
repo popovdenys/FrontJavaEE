@@ -11,6 +11,9 @@ module.exports = {
     jsDir : './src/js/',
     // output
     publicOutputPath : 'public/assets/',
+    localhost : 'http://localhost',
+    localPort : 8080,
+    serverPort : 8000,
     //modes
     productionMode: 'production',
     developmentMode: 'development',
@@ -62,7 +65,7 @@ module.exports = {
     setHtmlWebpackInProduction: function () {
         /*
         let htmlWebpackPlugin = new HtmlWebpackPlugin({
-            filename : '../public/index.html'
+            filename : 'index.html'
             , template : 'public/index.html'
         });
 

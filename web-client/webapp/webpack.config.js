@@ -23,13 +23,23 @@ let config = function( env, argv ) {
             , path: settings.getAbsolutOutputPath()
 
             // => for lazy loading
-            , publicPath: settings.getRelativePublicPath()
+            , publicPath: ( settings.isDevelopment() ? settings.localhost + ':' + settings.localPort : '' ) + settings.getRelativePublicPath()
         }
         , devServer: {
-            contentBase: settings.getDevServerPublicPath()
-            , https : true
-            //, bonjour : true
-            //, overlay : true
+            overlay: { warnings: true, errors: true }
+            , contentBase: settings.getDevServerPublicPath()
+            , port : settings.localPort
+            , proxy: {
+                "/app": {
+                    target: settings.localhost + ':' + settings.serverPort,
+                    pathRewrite: { "^/app" : '' }
+                }
+            }
+            , headers : {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD",
+                "Access-Control-Allow-Headers" : "Origin, X-Requested-With, Content-Type, Accept"
+            }
         }
         , module: {
             rules: [{
