@@ -1,7 +1,6 @@
-const settings = require('./settings.js')
-const HTMLPlugin = require( 'html-webpack-plugin' )
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
-const path = require( 'path' )
+const settings = require( './settings.js' )
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' )
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let config = function( env, argv ) {
 
@@ -11,7 +10,7 @@ let config = function( env, argv ) {
         watch : settings.isDevelopment( )
 
         , entry: {
-            app : './src/js/index.js'
+            app : [ settings.sassDir + 'app.scss', settings.jsDir + 'index.js' ]
         }
 
         // Let "source-map" in : uglifyjs-webpack-plugin
@@ -19,12 +18,18 @@ let config = function( env, argv ) {
 
         , output: {
 
-            filename: '[name].js'
+            filename: settings.isDevelopment() ? '[name].js' : '[name].[chunkhash:8].js'
 
-            , path: path.resolve(__dirname, 'build/assets')
+            , path: settings.getAbsolutOutputPath()
 
             // => for lazy loading
-            , publicPath: 'build/assets/'
+            , publicPath: settings.getRelativePublicPath()
+        }
+        , devServer: {
+            contentBase: settings.getDevServerPublicPath()
+            , https : true
+            //, bonjour : true
+            //, overlay : true
         }
         , module: {
             rules: [{
@@ -41,13 +46,23 @@ let config = function( env, argv ) {
                         fallback: "style-loader",
                         use: [ ...settings.setCssLoaders(), 'sass-loader' ]
                     })
-                }]
+                }, {
+                    test: /\.(eot|ttf|otf|woff2?)$/,
+                    use: 'file-loader'
+                }, {
+                    test: /\.(png|jpe?g|gif|svg)$/,
+                    use: [{
+                        loader: 'url-loader'
+                        , options: {
+                            limit: 10000
+                            , name: '[name].[sha512:hash:base64:8].[ext]'
+                        }
+                    }]
+                } ]
         }
         , plugins: [
-            new HTMLPlugin()
-
-            , new ExtractTextPlugin({
-                filename: '[name].css'
+            new ExtractTextPlugin({
+                filename:  settings.isDevelopment() ? '[name].css' : '[name].[sha512:contenthash:8].css'
                 , disable : settings.isDevelopment()
             })
 
@@ -59,7 +74,17 @@ module.exports = function( env, argv ) {
 
     config = config(env, argv)
 
-    if( settings.isProduction( ) ) config.plugins.push(settings.setUglifyInProduction())
+    // add production configuration
+    if( settings.isProduction( ) ) {
+        config.plugins.push( settings.setCleanWebpack() )
+        config.plugins.push( settings.setUglifyInProduction() )
+        // ToDo : remove it from 'plugins' or delete it at all
+        // config.plugins.push( settings.setHtmlWebpackInProduction() )
+        config.plugins.push( settings.setManifest() )
+    }
+
+    // add alias
+    config.resolve = settings.setAlias()
 
     return config
 }

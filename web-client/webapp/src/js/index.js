@@ -2,16 +2,22 @@
 //import log from './logs'
 import * as log from './logs'
 //import config from './config'
+import img from '@images/joli.jpg'
 
-import css from './app.scss'
+
+console.log(img)
+
+import css from '../styles/sass/app.scss'
 // import './app.scss'
 
 
 //console.log(css)
 
-let [b,,c,d] = [5,6,7,8]
+let [b,,c,d,x] = [5,6,7,8, 9]
 
 //debugger
+
+console.log( x )
 
 document.getElementById( 'btn-login' ).addEventListener( 'click', function ( ) {
     import( 'jquery' ).then( ( module ) => {
@@ -29,4 +35,4 @@ import('./test.wasm').then( function ( module ) {
     console.log( module._Z5add38i( -5 ) )
 } ).catch( console.log )
 */
-console.log( 'Hi, Denys Popov' )
+console.log( 'Hi, Master Sky Denys Popov' )
