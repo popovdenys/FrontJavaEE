@@ -1,38 +1,47 @@
-/*var log = require('./logs.js')*/
-//import log from './logs'
-import * as log from './logs'
-//import config from './config'
-import img from '@images/joli.jpg'
+'use strict'
+// var log = require('./logs.js')
+// import log from './logs'
+// import css from '../styles/sass/app.scss'
+import config from './config'
 
+import * as log from './logs'
+import img from '@images/joli.jpg'
+import printMe from './hot-reload.js'
 
 console.log(img)
 
-import css from '../styles/sass/app.scss'
 // import './app.scss'
 
+// console.log(css)
 
-//console.log(css)
+let [b, , c, d, x] = [5, 6, 7, 8, 9]
 
-let [b,,c,d,x] = [5,6,7,8, 9]
+// debugger
 
-//debugger
+console.log(x + b + c)
 
-console.log( x )
+log.log('Salut 10 : ' + d)
 
-document.getElementById( 'btn-login' ).addEventListener( 'click', function ( ) {
-    import( 'jquery' ).then( ( module ) => {
-        var $ = module.default;
-        $( 'body' ).css( 'backgroundColor', '#888' )
-    } )
-} )
+console.log(config)
 
-log.log('Salut : ' + d);
+console.log('Hi, Master Sky Denys Popov!')
 
-//console.log( config )
+document.getElementById('btn-login').addEventListener('click', function () {
+    import('jquery').then((module) => {
+        var $ = module.default
+        $('body').css('backgroundColor', '#888')
+    })
+})
 
 /*
 import('./test.wasm').then( function ( module ) {
     console.log( module._Z5add38i( -5 ) )
 } ).catch( console.log )
 */
-console.log( 'Hi, Master Sky Denys Popov' )
+
+if (module.hot) {
+    module.hot.accept('./hot-reload.js', function () {
+        console.log('Accepting the updated printMe module!')
+        printMe()
+    })
+}

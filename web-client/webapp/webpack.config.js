@@ -1,100 +1,115 @@
-const settings = require( './settings.js' )
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' )
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const settings = require('./settings.js')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-let config = function( env, argv ) {
+let webpackConfig = function(env, argv) {
 
     settings.currentMode = argv.mode
 
     return {
-        watch : settings.isDevelopment( )
+        watch : settings.isDevelopment()
 
         , entry: {
-            app : [ settings.sassDir + 'app.scss', settings.jsDir + 'index.js' ]
+            app : [settings.config.sassDir + 'app.scss', settings.config.jsDir + 'index.js']
         }
 
         // Let "source-map" in : uglifyjs-webpack-plugin
-        , devtool: settings.isDevelopment( ) ? "cheap-module-eval-source-map" : false
+        , devtool: settings.isDevelopment() ? "cheap-module-eval-source-map" : false
 
         , output: {
 
-            filename: settings.isDevelopment() ? '[name].js' : '[name].[chunkhash:8].js'
+            filename: settings.isDevelopment() ? '[name].js' : settings.config.prodJsName
 
             , path: settings.getAbsolutOutputPath()
 
             // => for lazy loading
-            , publicPath: ( settings.isDevelopment() ? settings.localhost + ':' + settings.localPort : '' ) + settings.getRelativePublicPath()
+            , publicPath: ( settings.isDevelopment() ? settings.config.localhost + ':' + settings.config.localPort : '' ) + settings.getRelativePublicPath()
         }
         , devServer: {
             overlay: { warnings: true, errors: true }
             , contentBase: settings.getDevServerPublicPath()
-            , port : settings.localPort
+            , port : settings.config.localPort
             , proxy: {
-                "/app": {
-                    target: settings.localhost + ':' + settings.serverPort,
-                    pathRewrite: { "^/app" : '' }
+                '/app': {
+                    target: settings.config.localhost + ':' + settings.config.serverPort,
+                    pathRewrite: {'^/app' : ''}
                 }
             }
             , headers : {
-                "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD",
-                "Access-Control-Allow-Headers" : "Origin, X-Requested-With, Content-Type, Accept"
+                'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD',
+                'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Content-Type, Accept'
             }
+            // ToDo : remove it /replaced by --hot/
+            // , hot : settings.isDevelopment()
         }
         , module: {
-            rules: [{
-
+            rules: [ {
+                    enforce : 'pre'
+                    , test: /\.js$/
+                    , exclude: /(node_modules|bower_components)/
+                    , loader: 'eslint-loader'
+                    , options: {
+                        configFile: settings.config.resourcesConfigPath + settings.config.eslintConfig
+                    }
+                }, {
                     // BABEL LOADER
                     test: /\.js$/
                     , exclude: /(node_modules|bower_components)/
-                    , use: ['babel-loader?cacheDirectory=false']
+                    , loader: 'babel-loader?cacheDirectory=' + settings.isDevelopment()
+                    , options: {
+                        extends: settings.config.resourcesConfigPath + settings.config.babelConfig
+                    }
                 }, {
-
                     // CSS LOADER
                     test: /\.s[ca]ss$/
                     , use: ExtractTextPlugin.extract({
                         fallback: "style-loader",
-                        use: [ ...settings.setCssLoaders(), 'sass-loader' ]
+                        use: [...settings.setCssLoaders(), 'sass-loader']
                     })
                 }, {
+                    // FILE LOADER
                     test: /\.(eot|ttf|otf|woff2?)$/,
                     use: 'file-loader'
                 }, {
+                    // URL LOADER
                     test: /\.(png|jpe?g|gif|svg)$/,
                     use: [{
                         loader: 'url-loader'
                         , options: {
                             limit: 10000
-                            , name: '[name].[sha512:hash:base64:8].[ext]'
+                            , name: settings.config.allImagesName
                         }
                     }]
                 } ]
         }
         , plugins: [
             new ExtractTextPlugin({
-                filename:  settings.isDevelopment() ? '[name].css' : '[name].[sha512:contenthash:8].css'
+                filename:  settings.isDevelopment() ? '[name].css' : settings.config.prodCssName
                 , disable : settings.isDevelopment()
             })
-
         ]
     }
 }
 
-module.exports = function( env, argv ) {
+module.exports = function(env, argv) {
 
-    config = config(env, argv)
+    webpackConfig = webpackConfig(env, argv)
 
     // add production configuration
-    if( settings.isProduction( ) ) {
-        config.plugins.push( settings.setCleanWebpack() )
-        config.plugins.push( settings.setUglifyInProduction() )
-        // ToDo : remove it from 'plugins' or delete it at all
-        // config.plugins.push( settings.setHtmlWebpackInProduction() )
-        config.plugins.push( settings.setManifest() )
+    if( settings.isProduction()) {
+        webpackConfig.plugins.push(settings.setCleanWebpack())
+        webpackConfig.plugins.push(settings.setUglifyInProduction())
+        webpackConfig.plugins.push(settings.setOccurrenceOrderInProduction())
+    }
+
+    // add development configuration
+    if( settings.isDevelopment()) {
+        // ToDo : remove it /replaced by --hot/
+        // webpackConfig.plugins.push(...settings.setHotInDevelopment())
     }
 
     // add alias
-    config.resolve = settings.setAlias()
+    webpackConfig.resolve = settings.setAlias()
 
-    return config
+    return webpackConfig
 }
