@@ -7,6 +7,7 @@ import config from './config'
 import * as log from './logs'
 import img from '@images/joli.jpg'
 import printMe from './hot-reload.js'
+import vuejs from '@vue/vue-investigation'
 
 console.log(img)
 
@@ -43,5 +44,12 @@ if (module.hot) {
     module.hot.accept('./hot-reload.js', function () {
         console.log('Accepting the updated printMe module!')
         printMe()
+    })
+}
+
+if (module.hot) {
+    module.hot.accept('@vue/vue-class.vue.js', function () {
+        console.log('Accepting the updated from vue.js module!')
+        vuejs()
     })
 }

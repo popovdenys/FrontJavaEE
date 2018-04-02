@@ -1,8 +1,9 @@
 module.exports = {
     // input
-    imagesDir : './src/styles/images/',
-    sassDir : './src/styles/sass/',
-    jsDir : './src/js/',
+    imagesDir : './src/styles/images',
+    sassDir : './src/styles/sass',
+    jsDir : './src/js',
+    vuesDir : './src/js/vues',
     // output
     prodJsName : '[name].[chunkhash:8].js',
     prodCssName : '[name].[sha512:contenthash:8].css',
@@ -11,6 +12,11 @@ module.exports = {
     localhost : 'http://localhost',
     localPort : 8080,
     serverPort : 8000,
+    headersCORS : {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods' : 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD',
+        'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Content-Type, Accept'
+    },
     // modes
     productionMode: 'production',
     developmentMode: 'development',

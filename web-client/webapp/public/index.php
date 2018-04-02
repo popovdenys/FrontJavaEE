@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="http://localhost:8080/assets/app.css">
 </head>
 <body>
+<div id="app-7">
+    <ol>
+        <todo-item
+                v-for="item in groceryList"
+                v-bind:todo="item"
+                v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>
+
 <p id="target">Go!</p>
 <div id="image-first"></div>
 
@@ -14,7 +24,7 @@
 <div><p id="text-field">Text</p></div>
 <button class="btn btn-primary" id="btn-login">Login</button>
 
-<!--<div id="app">{{hello}}</div>-->
+<div id="app">{{ message }}</div>
 
 <?php
 var_dump($_SERVER) ?>

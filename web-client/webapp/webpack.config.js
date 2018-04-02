@@ -8,8 +8,14 @@ let webpackConfig = function(env, argv) {
     return {
         watch : settings.isDevelopment()
 
+        , resolve : {
+            extensions: ['.js', '.json', '.vue']
+            , alias: settings.setAlias()
+        }
+
         , entry: {
-            app : [settings.config.sassDir + 'app.scss', settings.config.jsDir + 'index.js']
+            // '@vue/vue-class.vue.js'
+            app : ['@sass/app.scss', '@vue/index.vue.js']
         }
 
         // Let "source-map" in : uglifyjs-webpack-plugin
@@ -31,14 +37,11 @@ let webpackConfig = function(env, argv) {
             , proxy: {
                 '/app': {
                     target: settings.config.localhost + ':' + settings.config.serverPort,
+                    // ToDo : doesn't work ???
                     pathRewrite: {'^/app' : ''}
                 }
             }
-            , headers : {
-                'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods' : 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD',
-                'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Content-Type, Accept'
-            }
+            , headers : settings.config.headersCORS
             // ToDo : remove it /replaced by --hot/
             // , hot : settings.isDevelopment()
         }
@@ -51,15 +54,24 @@ let webpackConfig = function(env, argv) {
                     , options: {
                         configFile: settings.config.resourcesConfigPath + settings.config.eslintConfig
                     }
-                }, {
+                },{
                     // BABEL LOADER
-                    test: /\.js$/
+                    test: /\.(js|vue)$/
                     , exclude: /(node_modules|bower_components)/
-                    , loader: 'babel-loader?cacheDirectory=' + settings.isDevelopment()
-                    , options: {
-                        extends: settings.config.resourcesConfigPath + settings.config.babelConfig
-                    }
-                }, {
+                    , use: [
+                        { loader: 'babel-loader?cacheDirectory=' + settings.isDevelopment()
+                            , options: {
+                                extends:
+                                    settings.config.resourcesConfigPath + settings.config.babelConfig
+                                }
+                            }
+                        ]
+
+                }, /*{
+                    // ToDo : remove VUE LOADER; babel is used by default
+                    test: /\.vue$/
+                    , loader: 'vue-loader'
+                },*/ {
                     // CSS LOADER
                     test: /\.s[ca]ss$/
                     , use: ExtractTextPlugin.extract({
@@ -81,8 +93,7 @@ let webpackConfig = function(env, argv) {
                         }
                     }]
                 } ]
-        }
-        , plugins: [
+        }, plugins: [
             new ExtractTextPlugin({
                 filename:  settings.isDevelopment() ? '[name].css' : settings.config.prodCssName
                 , disable : settings.isDevelopment()
@@ -107,9 +118,6 @@ module.exports = function(env, argv) {
         // ToDo : remove it /replaced by --hot/
         // webpackConfig.plugins.push(...settings.setHotInDevelopment())
     }
-
-    // add alias
-    webpackConfig.resolve = settings.setAlias()
 
     return webpackConfig
 }

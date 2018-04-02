@@ -38,11 +38,11 @@ module.exports = {
     // set alias
     setAlias: function() {
         return {
-            alias: {
-                '@images': path.resolve(__dirname, this.config.imagesDir),
-                '@sass': path.resolve(__dirname, this.config.sassDir),
-                '@js': path.resolve(__dirname, this.config.jsDir)
-            }
+            vue: 'vue/dist/vue.js',
+            '@images': path.resolve(__dirname, this.config.imagesDir),
+            '@sass': path.resolve(__dirname, this.config.sassDir),
+            '@js': path.resolve(__dirname, this.config.jsDir),
+            '@vue': path.resolve(__dirname, this.config.vuesDir)
         }
     },
     // ToDo : remove it /replaced by --hot/
