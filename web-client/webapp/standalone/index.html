@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.js</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <login-component></login-component>
+    </div>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var data = {
+            message: 'Learning Vue.js'
+        };
+
+        new Vue({
+            el:'#app',
+            data: data
+        });
+    </script>
+</body>
+</html>
+<script>
+    import Login from "./login";
+    export default {
+        components: {Login}
+    }
+</script>
