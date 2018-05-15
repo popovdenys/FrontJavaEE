@@ -1,9 +1,13 @@
 module.exports = {
-    // input
+    // set input paths' alias
+    // @images
     imagesDir : './src/styles/images',
+    // @sass
     sassDir : './src/styles/sass',
+    // @js
     jsDir : './src/js',
-    vuesDir : './src/js/vues',
+    // @vue
+    vuesDir : './src/js/vue',
     // output
     prodJsName : '[name].[chunkhash:8].js',
     prodCssName : '[name].[sha512:contenthash:8].css',

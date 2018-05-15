@@ -14,8 +14,8 @@ let webpackConfig = function(env, argv) {
         }
 
         , entry: {
-            // '@vue/vue-class.vue.js'
-            app : ['@sass/app.scss', '@vue/index.vue.js']
+            // '@vue/ChemApp.vue'
+            app : ['@sass/app.scss', '@vue/index.js']
         }
 
         // Let "source-map" in : uglifyjs-webpack-plugin
@@ -54,7 +54,8 @@ let webpackConfig = function(env, argv) {
                     , options: {
                         configFile: settings.config.resourcesConfigPath + settings.config.eslintConfig
                     }
-                },{
+                }, /* {
+                    // ToDo : remove VUE LOADER; vue-loader is used instead
                     // BABEL LOADER
                     test: /\.(js|vue)$/
                     , exclude: /(node_modules|bower_components)/
@@ -67,11 +68,10 @@ let webpackConfig = function(env, argv) {
                             }
                         ]
 
-                }, /*{
-                    // ToDo : remove VUE LOADER; babel is used by default
+                },*/ {
                     test: /\.vue$/
                     , loader: 'vue-loader'
-                },*/ {
+                }, {
                     // CSS LOADER
                     test: /\.s[ca]ss$/
                     , use: ExtractTextPlugin.extract({

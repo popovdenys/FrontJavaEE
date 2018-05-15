@@ -1,5 +1,10 @@
-$background: cornflowerblue;
+$BG_COLOR: cornflowerblue;
 
+body {
+  background: $BG_COLOR;
+}
+
+/*
 body {
     background: url(../images/yoshi.png);
     background-repeat: no-repeat;
@@ -14,3 +19,4 @@ body {
 #text-field {
     transform: translateX(15px);
 }
+*/
