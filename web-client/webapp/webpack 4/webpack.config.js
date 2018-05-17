@@ -50,11 +50,16 @@ let webpackConfig = function(env, argv) {
                     enforce : 'pre'
                     , test: /\.js$/
                     , exclude: /(node_modules|bower_components)/
-                    , loader: 'eslint-loader'
-                    , options: {
-                        configFile: settings.config.resourcesConfigPath + settings.config.eslintConfig
-                    }
-                }, /* {
+                    , use: [
+                      {
+                        loader: 'eslint-loader'
+                          , options: {
+                            configFile: settings.config.resourcesConfigPath + settings.config.eslintConfig
+                          }
+                        }
+                    ]
+                    ,
+                }, {
                     // ToDo : remove VUE LOADER; vue-loader is used instead
                     // BABEL LOADER
                     test: /\.(js|vue)$/
@@ -68,7 +73,7 @@ let webpackConfig = function(env, argv) {
                             }
                         ]
 
-                },*/ {
+                }, {
                     test: /\.vue$/
                     , loader: 'vue-loader'
                 }, {

@@ -1,0 +1,61 @@
+{
+  "name": "javaee-client",
+  "version": "0.0.1",
+  "description": "JavaEE project's Front-End",
+  "private": true,
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --mode=development",
+    "simple-build": "./node_modules/.bin/webpack",
+    "dev": "./node_modules/.bin/webpack-dev-server --mode=development --hot",
+    "prod": "npm run simple-build -- --mode=production",
+    "server": "php -S localhost:8000 -d display_errors=1 -t public"
+  },
+  "keywords": [
+    "webpack",
+    "es6",
+    "sass",
+    "vue.js"
+  ],
+  "author": {
+    "name": "Popov Denys",
+    "email": "popovdenys@gmail.com"
+  },
+  "license": "MIT",
+  "devDependenciesComments": "style-loader => css injection",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "autoprefixer": "^8.2.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^8.0.0-beta.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "node-sass": "^4.8.3",
+    "postcss-loader": "^2.1.3",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "url-loader": "^1.0.1",
+    "vue-loader": "^14.2.2",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "vue": "^2.5.16",
+    "vue-cli": "^2.9.3",
+    "vuex": "^3.0.1"
+  }
+}
